@@ -74,7 +74,7 @@ function spend(keypair, toAddress, amount, callback) {
     var tx = new bitcoin.TransactionBuilder()
     tx.addOutput(toAddress, amount)
 
-    var change = balance - amount - 10000 // 10000 fee
+    var change = balance - amount - 100000 // 100000 fee
     if (change > 0) {
       tx.addOutput(address, change)
     }
