@@ -17,23 +17,27 @@ if (privkey == undefined) {
 
   // initialize wallet
   if (!fs.existsSync(WALLET_FILE)) {
-    privkey = bitcoin.ECPair.makeRandom({network: bitcoin.networks.testnet, compressed: false}).toWIF()
+  	privkey = bitcoin.ECKey.makeRandom().toWIF()
     fs.writeFileSync(WALLET_FILE, privkey, 'utf-8')
   } else {
     privkey = fs.readFileSync(WALLET_FILE, 'utf-8')
   }
 }
 
-var keypair = bitcoin.ECPair.fromWIF(privkey)
-var address = keypair.getAddress().toString()
+var keypair = bitcoin.ECKey.fromWIF(privkey)
+var address = keypair.pub.getAddress(bitcoin.networks.neblio_testnet).toString()
 
-var blockchain = new Blockchain('https://test-insight.bitpay.com')
+var blockchain = new Blockchain('https://ntp1node.nebl.io:13002')
 
 var app = express()
 app.get('/', function (req, res) {
   var pkg = require('./package')
   res.set('Content-Type', 'text/plain')
-  res.end('bitcoin-faucet version: ' + pkg.version + '\n\nPlease send funds back to: ' + address)
+  res.end('Neblio Testnet Faucet version: ' + pkg.version +
+  	      '\n\nTestnet NEBL are not valuable, do not abuse this faucet or it will be shut down, and please return left over NEBL' +
+  	      '\n\nPlease send NEBL back to: ' + address +
+  	      '\n\n\nBy default this faucet issues 1 NEBL per request. You can also spcify an "amount" in satoshi to send up to 10 NEBL. ex: &amount=800000000' +
+  	      '\n\nUsage: https://ntp1node.nebl.io:15000/withdrawal?address=NEBLTestnetAddressHere')
 })
 
 // only bitcoin testnet supported for now
@@ -43,7 +47,11 @@ app.get('/withdrawal', function (req, res) {
   }
 
   // satoshis
-  var amount = parseInt(req.query.amount, 10) || 10000
+  var amount = parseInt(req.query.amount, 10) || 100000000
+
+  if (amount > 1000000000) {
+  	amount = 1000000000
+  }
 
   spend(keypair, req.query.address, amount, function (err, txId) {
     if (err) return res.status(500).send({status: 'error', data: {message: err.message}})
@@ -60,13 +68,13 @@ function spend(keypair, toAddress, amount, callback) {
     }, 0)
 
     if (amount > balance) {
-      return callback(new Error('Address doesn\'t contain enough money to send.'))
+      return callback(new Error('Faucet doesn\'t contain enough NEBL to send.'))
     }
 
     var tx = new bitcoin.TransactionBuilder()
     tx.addOutput(toAddress, amount)
 
-    var change = balance - amount
+    var change = balance - amount - 10000 // 10000 fee
     if (change > 0) {
       tx.addOutput(address, change)
     }

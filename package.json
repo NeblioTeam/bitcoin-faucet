@@ -25,8 +25,8 @@
   },
   "homepage": "https://github.com/jprichardson/bitcoin-faucet",
   "dependencies": {
-    "bitcoinjs-lib": "git://github.com/bitcoinjs/bitcoinjs-lib",
-    "cb-insight": "^0.1.0",
+    "bitcoinjs-lib": "https://github.com/NeblioTeam/bitcoinjs-lib.git#nebliojs-lib",
+    "cb-insight": "https://github.com/NeblioTeam/cb-insight.git#cb-insight-nebl",
     "chalk": "^1.0.0",
     "express": "^4.12.3"
   },
