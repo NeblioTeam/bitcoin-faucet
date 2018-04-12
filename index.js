@@ -36,7 +36,7 @@ app.get('/', function (req, res) {
   res.end('Neblio Testnet Faucet version: ' + pkg.version +
   	      '\n\nTestnet NEBL are not valuable, do not abuse this faucet or it will be shut down, and please return left over NEBL' +
   	      '\n\nPlease send NEBL back to: ' + address +
-  	      '\n\n\nBy default this faucet issues 1 NEBL per request. You can also spcify an "amount" in satoshi to send up to 50 NEBL. ex: &amount=800000000' +
+  	      '\n\n\nBy default this faucet issues 15 NEBL per request. You can also spcify an "amount" in satoshi to send up to 50 NEBL. ex: &amount=2000000000' +
   	      '\n\nUsage: https://ntp1node.nebl.io:15000/withdrawal?address=NEBLTestnetAddressHere')
 })
 
@@ -47,7 +47,7 @@ app.get('/withdrawal', function (req, res) {
   }
 
   // satoshis
-  var amount = parseInt(req.query.amount, 10) || 100000000
+  var amount = parseInt(req.query.amount, 10) || 1500000000
 
   if (amount > 5000000000) {
   	amount = 5000000000
