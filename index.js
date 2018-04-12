@@ -37,7 +37,6 @@ var withdrawalLimiter = new RateLimit({
   windowMs: 24*60*60*1000, // 1 day
   max: 1,
   delayMs: 0, // disabled
-  max: 1,
   skipFailedRequests: true,
   message: "Only one withdrawal allowed per day due to abuse. To request additional Testnet NEBL contact us via https://nebl.io/contact or wait 24 hours."
 });
