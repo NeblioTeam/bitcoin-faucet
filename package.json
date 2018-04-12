@@ -28,7 +28,8 @@
     "bitcoinjs-lib": "https://github.com/NeblioTeam/bitcoinjs-lib.git#nebliojs-lib",
     "cb-insight": "https://github.com/NeblioTeam/cb-insight.git#cb-insight-nebl",
     "chalk": "^1.0.0",
-    "express": "^4.12.3"
+    "express": "^4.12.3",
+    "express-rate-limit": "^2.11.0"
   },
   "bin": {
     "bitcoin-faucet": "./index.js"

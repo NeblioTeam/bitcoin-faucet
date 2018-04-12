@@ -5,6 +5,7 @@ var path = require('path')
 var Blockchain = require('cb-insight')
 var chalk = require('chalk')
 var express = require('express')
+var RateLimit = require('express-rate-limit')
 var fs = require('fs')
 var bitcoin = require('bitcoinjs-lib')
 
@@ -30,6 +31,17 @@ var address = keypair.pub.getAddress(bitcoin.networks.neblio_testnet).toString()
 var blockchain = new Blockchain('https://ntp1node.nebl.io:13002')
 
 var app = express()
+app.enable('trust proxy')
+
+var withdrawalLimiter = new RateLimit({
+  windowMs: 24*60*60*1000, // 1 day
+  max: 1,
+  delayMs: 0, // disabled
+  max: 1,
+  skipFailedRequests: true,
+  message: "Only one withdrawal allowed per day due to abuse. To request additional Testnet NEBL contact us via https://nebl.io/contact or wait 24 hours."
+});
+
 app.get('/', function (req, res) {
   var pkg = require('./package')
   res.set('Content-Type', 'text/plain')
@@ -41,7 +53,7 @@ app.get('/', function (req, res) {
 })
 
 // only bitcoin testnet supported for now
-app.get('/withdrawal', function (req, res) {
+app.get('/withdrawal', withdrawalLimiter, function (req, res) {
   if (!req.query.address) {
     res.status(422).send({ status: 'error', data: { message: 'You forgot to set the "address" parameter.' } })
   }
