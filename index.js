@@ -28,7 +28,7 @@ if (privkey == undefined) {
 var keypair = bitcoin.ECKey.fromWIF(privkey)
 var address = keypair.pub.getAddress(bitcoin.networks.neblio_testnet).toString()
 
-var blockchain = new Blockchain('https://ntp1node.nebl.io:13002')
+var blockchain = new Blockchain('https://ntp1node.nebl.io/testnet')
 
 var app = express()
 app.enable('trust proxy')
@@ -48,7 +48,7 @@ app.get('/', function (req, res) {
   	      '\n\n\n\nTESTNET NEBL ARE NOT VALUABLE. DUE TO THIS FAUCET BEING ABUSED IN THE PAST, THERE IS A 2 WITHDRAWAL PER 24 HOURS LIMIT. ' +
   	      '\n\n\n\nPlease send leftover testnet NEBL back to: ' + address +
   	      '\n\n\nBy default this faucet issues 15 NEBL per request. You can also spcify an "amount" in satoshi to send up to 50 NEBL. ex: &amount=2000000000' +
-  	      '\n\nUsage: https://ntp1node.nebl.io:1443/faucet/withdrawal?address=NEBLTestnetAddressHere' +
+  	      '\n\nUsage: https://ntp1node.nebl.io/testnet/faucet?address=NEBLTestnetAddressHere' +
   	      '\n\n\nTo request additional or large amounts of Testnet NEBL for legitimate projects, contact us via https://nebl.io/contact')
 })
 
