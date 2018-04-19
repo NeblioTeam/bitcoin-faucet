@@ -34,7 +34,7 @@ var app = express()
 app.enable('trust proxy')
 
 var withdrawalLimiter = new RateLimit({
-  windowMs: 24*60*60*1000, // 12 hours
+  windowMs: 24*60*60*1000, // 24 hours
   max: 2,
   delayMs: 0, // disabled
   skipFailedRequests: true,
