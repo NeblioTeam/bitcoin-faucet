@@ -41,6 +41,12 @@ var withdrawalLimiter = new RateLimit({
   message: "Only two withdrawals allowed per day due to this faucet being abused in the past. To request additional Testnet NEBL contact us via https://nebl.io/contact or wait 24 hours."
 });
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.get('/', function (req, res) {
   var pkg = require('./package')
   res.set('Content-Type', 'text/plain')
