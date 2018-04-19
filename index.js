@@ -28,7 +28,7 @@ if (privkey == undefined) {
 var keypair = bitcoin.ECKey.fromWIF(privkey)
 var address = keypair.pub.getAddress(bitcoin.networks.neblio_testnet).toString()
 
-var blockchain = new Blockchain('https://ntp1node.nebl.io/testnet')
+var blockchain = new Blockchain('https://ntp1node.nebl.io')
 
 var app = express()
 app.enable('trust proxy')
