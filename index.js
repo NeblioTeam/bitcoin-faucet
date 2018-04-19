@@ -34,21 +34,21 @@ var app = express()
 app.enable('trust proxy')
 
 var withdrawalLimiter = new RateLimit({
-  windowMs: 24*60*60*1000, // 1 day
-  max: 1,
+  windowMs: 24*60*60*1000, // 12 hours
+  max: 2,
   delayMs: 0, // disabled
   skipFailedRequests: true,
-  message: "Only one withdrawal allowed per day due to this faucet being abused in the past. To request additional Testnet NEBL contact us via https://nebl.io/contact or wait 24 hours."
+  message: "Only two withdrawals allowed per day due to this faucet being abused in the past. To request additional Testnet NEBL contact us via https://nebl.io/contact or wait 24 hours."
 });
 
 app.get('/', function (req, res) {
   var pkg = require('./package')
   res.set('Content-Type', 'text/plain')
   res.end('Neblio Testnet Faucet version: ' + pkg.version +
-  	      '\n\n\n\nTESTNET NEBL ARE NOT VALUABLE. DUE TO THIS FAUCET BEING ABUSED IN THE PAST, THERE IS A 1 WITHDRAWAL PER 24 HOURS LIMIT. ' +
+  	      '\n\n\n\nTESTNET NEBL ARE NOT VALUABLE. DUE TO THIS FAUCET BEING ABUSED IN THE PAST, THERE IS A 2 WITHDRAWAL PER 24 HOURS LIMIT. ' +
   	      '\n\n\n\nPlease send leftover testnet NEBL back to: ' + address +
   	      '\n\n\nBy default this faucet issues 15 NEBL per request. You can also spcify an "amount" in satoshi to send up to 50 NEBL. ex: &amount=2000000000' +
-  	      '\n\nUsage: https://ntp1node.nebl.io:15000/withdrawal?address=NEBLTestnetAddressHere' +
+  	      '\n\nUsage: https://ntp1node.nebl.io:1443/faucet/withdrawal?address=NEBLTestnetAddressHere' +
   	      '\n\n\nTo request additional or large amounts of Testnet NEBL for legitimate projects, contact us via https://nebl.io/contact')
 })
 
